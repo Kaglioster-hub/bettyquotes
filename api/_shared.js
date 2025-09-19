@@ -1,5 +1,5 @@
 const KEY = (process.env.ODDS_API_KEY || "").trim();
-const REGION = (process.env.BQ_REGION || "eu").trim() || "eu";
+const REGION = (process.env.BQ_REGION || "eu").trim(); // può essere "eu,uk"
 const SPORTS = (process.env.BQ_SPORTS || "soccer_epl,basketball_nba,tennis_atp")
   .split(",").map(s => s.trim()).filter(Boolean);
 const TTL = parseInt(process.env.BQ_TTL_SECONDS || "300", 10);
@@ -21,7 +21,7 @@ async function fetchOddsV4(sport){
   if(!KEY) return [];
   const ck = `v4:${sport}:${REGION}`;
   const hit = cget(ck); if(hit) return hit;
-  const url = `https://api.the-odds-api.com/v4/sports/${sport}/odds?regions=${REGION}&markets=h2h&oddsFormat=decimal&dateFormat=iso&apiKey=${KEY}`;
+  const url = `https://api.the-odds-api.com/v4/sports/${sport}/odds?regions=${REGION}&markets=${MARKETS}&oddsFormat=decimal&dateFormat=iso&apiKey=${KEY}`;
   const {data} = await httpJSON(url);
   if (data && !Array.isArray(data) && (data.message || data.error)) return [];
   const list = (Array.isArray(data)?data:[]).map(ev=>{
@@ -101,3 +101,4 @@ function reseedDemo(){
 }
 
 module.exports = { REGION, SPORTS, fetchOddsV4, computeTop, reseedDemo, httpJSON };
+
