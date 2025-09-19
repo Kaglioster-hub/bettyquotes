@@ -207,3 +207,8 @@ if __name__ == "__main__":
 from flask import Request
 def handler(request: Request, *args, **kwargs):
     return app(request, *args, **kwargs)
+
+# === Vercel handler ===
+from flask import Request
+def handler(request: Request, *args, **kwargs):
+    return app(request, *args, **kwargs)
