@@ -3,6 +3,11 @@ from datetime import datetime, timedelta, timezone
 from flask import Flask, request, jsonify, redirect, make_response, send_file
 import requests
 import xlsxwriter
+from dotenv import load_dotenv  # NEW
+
+# === ENV LOAD ===
+load_dotenv(dotenv_path=".env.local")
+load_dotenv(dotenv_path=".env")
 
 app = Flask(__name__)
 
@@ -115,7 +120,6 @@ def compute_top(limit=100):
         for ev in fetch_v4(sp):
             best=best_prices(ev)
             if not best: continue
-            # value score: max delta best vs avg
             groups={}
             for r in ev["odds"]:
                 k=(r["outcome"] or "").strip().lower()
@@ -164,7 +168,6 @@ def api_ping():
     diag["results"]=res
     return jsonify(diag)
 
-# === EXPORT ===
 @app.route("/api/export_csv")
 def api_export_csv():
     sport=request.args.get("sport", SPORTS[0])
@@ -198,17 +201,10 @@ def api_export_xls():
     return send_file(output, as_attachment=True, download_name=f"bettyquotes_{sport}.xlsx", mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 
 # === ENTRYPOINT ===
-def handler(request, *args, **kwargs):
-    return app(request, *args, **kwargs)
-
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=3000)
-# Vercel handler
-from flask import Request
-def handler(request: Request, *args, **kwargs):
-    return app(request, *args, **kwargs)
 
-# === Vercel handler ===
+# === Vercel handler (single) ===
 from flask import Request
 def handler(request: Request, *args, **kwargs):
     return app(request, *args, **kwargs)
