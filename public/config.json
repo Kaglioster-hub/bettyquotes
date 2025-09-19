@@ -5,12 +5,44 @@
       "name": "Calcio \u2022 Premier League"
     },
     {
+      "key": "soccer_italy_serie_a",
+      "name": "Calcio \u2022 Serie A"
+    },
+    {
+      "key": "soccer_spain_la_liga",
+      "name": "Calcio \u2022 La Liga"
+    },
+    {
+      "key": "soccer_france_ligue_one",
+      "name": "Calcio \u2022 Ligue 1"
+    },
+    {
+      "key": "soccer_germany_bundesliga",
+      "name": "Calcio \u2022 Bundesliga"
+    },
+    {
+      "key": "soccer_uefa_champions_league",
+      "name": "Calcio \u2022 Champions League"
+    },
+    {
+      "key": "soccer_uefa_europa_league",
+      "name": "Calcio \u2022 Europa League"
+    },
+    {
       "key": "basketball_nba",
       "name": "Basket \u2022 NBA"
     },
     {
+      "key": "basketball_euroleague",
+      "name": "Basket \u2022 Euroleague"
+    },
+    {
       "key": "tennis_atp",
       "name": "Tennis \u2022 ATP"
+    },
+    {
+      "key": "tennis_wta",
+      "name": "Tennis \u2022 WTA"
     }
   ]
 }

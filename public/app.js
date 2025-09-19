@@ -123,7 +123,7 @@ async function loadAndRender(mode='all'){
   // banners / partners
   const banners = await (await fetch('/components/ReferralBanner.js')).text(); // ping for cache
 }
-loadAndRender();
+loadTop();
 
 // Render referral banners
 import('/components/ReferralBanner.js').then(m => m.mount('#refBanners'));
@@ -136,3 +136,54 @@ import('/components/SmartYield.js').then(m => {
   const country = (window.__COUNTRY__ || 'IT');
   m.mountSmartYield('#yieldSidebar', { slot:'sidebar', lang, device, country, sport: (document.querySelector('#sportSelect')||{}).value || 'soccer_epl' });
 });
+
+document.getElementById("btnTop").addEventListener("click", ()=>loadTop());
+
+async function loadTop(){
+  statusEl.textContent = 'Top loading…';
+  let data = [];
+  try{
+    const res = await fetch(`/api/top?limit=100`);
+    data = await res.json();
+  }catch(e){ console.error(e); }
+  statusEl.textContent = `${data.length} top eventi`;
+  list.innerHTML = "";
+  data.forEach(ev => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    const tagSure = ev.sure ? `<span class="badge badge-green ml-2">SUREBET</span>` : ``;
+    const tagVal = (ev.value_score!=null) ? `<span class="badge ${ev.value_score>=0?'badge-green':'badge-red'} ml-2">value ${(ev.value_score*100).toFixed(1)}%</span>` : '';
+    card.innerHTML = `
+      <div class="row">
+        <div class="col-span-3">
+          <div class="font-semibold">${ev.home} vs ${ev.away || ''}</div>
+          <div class="text-xs opacity-70">${new Date(ev.commence_time).toLocaleString()}</div>
+          <div class="text-xs opacity-70">${ev.sport_key || ''}</div>
+        </div>
+        <div class="col-span-3 flex gap-2 flex-wrap">
+          ${(ev.odds || []).slice(0,8).map(o => `
+            <button data-book="${o.bookmaker}" data-outcome="${o.outcome}" data-odd="${o.price}" class="px-2 py-1 rounded-lg border text-sm hover:bg-slate-50 dark:hover:bg-white/5">
+              ${o.bookmaker}: <span class="font-mono">${o.outcome}</span> @ <span class="font-semibold">${o.price}</span>
+            </button>
+          `).join('')}
+        </div>
+        <div class="col-span-2 text-right">${tagVal}${tagSure}</div>
+      </div>
+    `;
+    card.querySelectorAll('button').forEach(btn=>{
+      btn.addEventListener('click', async ()=>{
+        const bookmaker = btn.dataset.book;
+        const outcome = btn.dataset.outcome;
+        const price = btn.dataset.odd;
+        await (async ()=>{
+          try{
+            const blob = new Blob([JSON.stringify({bookmaker, outcome, price, sport: ev.sport_key, event_id: ev.id})], {type:'application/json'});
+            navigator.sendBeacon('/api/track', blob);
+          }catch(e){}
+        })();
+        location.href = `/go/${encodeURIComponent(bookmaker)}?e=${encodeURIComponent(ev.id)}&o=${encodeURIComponent(outcome)}&p=${encodeURIComponent(price)}`;
+      });
+    });
+    list.appendChild(card);
+  });
+}

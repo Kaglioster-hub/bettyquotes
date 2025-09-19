@@ -90,7 +90,7 @@ def demo_data(sport):
         "home": "Team Alpha",
         "away": "Team Beta",
         "odds": [
-            {"bookmaker":"SNAI","outcome":"Home","price":1.95},
+            {"bookmaker":"SNAI","outcome":"Home","price":1.95}, {"bookmaker":"SNAI","outcome":"Draw","price":3.30},
             {"bookmaker":"Bet365","outcome":"Away","price":2.05},
             {"bookmaker":"WilliamHill","outcome":"Home","price":2.02},
             {"bookmaker":"Planetwin","outcome":"Away","price":1.98}
@@ -102,7 +102,7 @@ def demo_data(sport):
         "home": "Team Gamma",
         "away": "Team Delta",
         "odds": [
-            {"bookmaker":"SNAI","outcome":"Home","price":2.10},
+            {"bookmaker":"SNAI","outcome":"Home","price":2.10}, {"bookmaker":"SNAI","outcome":"Draw","price":3.40},
             {"bookmaker":"Bet365","outcome":"Away","price":1.80},
             {"bookmaker":"WilliamHill","outcome":"Home","price":2.05},
             {"bookmaker":"Planetwin","outcome":"Away","price":1.85}
@@ -348,6 +348,67 @@ def go_smart(slug):
     d[camp["id"]] = d.get(camp["id"], 0) + 1
 
     return redirect(url, code=302)
+
+
+
+def best_prices_by_outcome(ev):
+    best = {}
+    for row in ev.get("odds", []):
+        k = row["outcome"].strip().lower()
+        if k not in best or row["price"] > best[k]["price"]:
+            best[k] = row
+    return best
+
+def detect_surebet_generic(ev):
+    # generic N-outcome surebet: sum(1/price_i) < 1 - margin
+    best = best_prices_by_outcome(ev)
+    if len(best) < 2:
+        return False, None
+    s = sum(1.0/max(1e-9,b["price"]) for b in best.values())
+    sure = s < (1.0 - SURE_MARGIN)
+    return sure, s
+
+def compute_top_picks(limit=50):
+    items = []
+    for sport in SPORTS:
+        events = fetch_odds(sport)
+        for ev in events:
+            best = best_prices_by_outcome(ev)
+            if not best: 
+                continue
+            # 'value score' = max price / average price for that outcome - 1
+            # compute per outcome, take max
+            outcomes = {}
+            for row in ev["odds"]:
+                k = row["outcome"].strip().lower()
+                outcomes.setdefault(k, []).append(row["price"])
+            score = -1e9
+            best_outcome = None
+            for k, arr in outcomes.items():
+                avg = sum(arr)/len(arr)
+                b = best.get(k, {"price": avg})
+                val = (b["price"]/avg)-1.0
+                if val > score:
+                    score = val; best_outcome = k
+            sure, s = detect_surebet_generic(ev)
+            items.append({
+                **ev,
+                "sport_key": ev.get("sport_key") or sport,
+                "value_score": score,
+                "sure": bool(sure),
+                "best_outcome": best_outcome
+            })
+    # sort: surebets first, then highest value
+    items.sort(key=lambda x: (not x.get("sure", False), -(x.get("value_score") or 0)), reverse=False)
+    return items[:limit]
+
+@app.route("/api/top")
+def api_top():
+    try:
+        limit = int(request.args.get("limit","50"))
+    except:
+        limit = 50
+    return jsonify(compute_top_picks(limit=limit))
 
 # Vercel entrypoint
 def handler(request, *args, **kwargs):
