@@ -294,12 +294,6 @@ def _static_proxy(path):
     safe_path = path.replace("..", "")
     return send_from_directory(PUBLIC_DIR, safe_path)
 
-# ===== Vercel handler (WSGI) =====
-# NIENTE import di Request qui.
-def handler(environ, start_response):
-    # Adatta la WSGI app di Flask all'handler richiesto da Vercel
-    return app.wsgi_app(environ, start_response)
-
 # ===== Local run =====
 if __name__ == "__main__":
     # In locale continua a servire anche lo statico
