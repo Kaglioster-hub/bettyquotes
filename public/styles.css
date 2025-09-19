@@ -1,0 +1,12 @@
+/* Minimal custom styles (Tailwind via CDN for utilities) */
+:root {
+  --brand:#0a2540;
+  --accent:#ff5b37;
+}
+html { scroll-behavior:smooth; }
+.card { @apply rounded-2xl border p-4 bg-white/70 dark:bg-white/5 dark:border-white/10; }
+.badge { @apply px-2 py-0.5 rounded-md text-xs font-medium border; }
+.badge-green { @apply border-emerald-300/50 text-emerald-700 dark:text-emerald-300; background:rgba(16,185,129,.08) }
+.badge-red { @apply border-rose-300/50 text-rose-700 dark:text-rose-300; background:rgba(244,63,94,.08) }
+.row { @apply grid grid-cols-8 gap-3 items-center; }
+.row > * { @apply truncate; }

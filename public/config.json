@@ -1,0 +1,16 @@
+{
+  "sports": [
+    {
+      "key": "soccer_epl",
+      "name": "Calcio \u2022 Premier League"
+    },
+    {
+      "key": "basketball_nba",
+      "name": "Basket \u2022 NBA"
+    },
+    {
+      "key": "tennis_atp",
+      "name": "Tennis \u2022 ATP"
+    }
+  ]
+}

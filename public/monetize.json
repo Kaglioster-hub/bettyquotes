@@ -1,0 +1,151 @@
+{
+  "version": "1.0",
+  "slots": {
+    "sidebar": {
+      "count": 4
+    },
+    "inline": {
+      "count": 2
+    },
+    "footer": {
+      "count": 2
+    }
+  },
+  "campaigns": [
+    {
+      "id": "bk_bet365_bonus",
+      "name": "Bet365 • Bonus di benvenuto",
+      "slug": "bet365",
+      "url": "https://affiliate.bet365.com/redirect.aspx?pid=YOUR_BET365_ID",
+      "payout_score": 95,
+      "tags": [
+        "bookmaker",
+        "bonus"
+      ],
+      "weights": {
+        "country": {
+          "IT": 1.2,
+          "GB": 1.1
+        },
+        "sport": {
+          "soccer_epl": 1.1
+        },
+        "device": {
+          "mobile": 1.1
+        }
+      },
+      "param_style": {
+        "append": {
+          "utm_source": "bq",
+          "utm_medium": "ref",
+          "utm_campaign": "bet365",
+          "cid": "{cid}"
+        }
+      }
+    },
+    {
+      "id": "bk_snai_bonus",
+      "name": "SNAI • 300€ Bonus",
+      "slug": "snai",
+      "url": "https://affiliati.snai.it/?ref=YOUR_SNAI_ID",
+      "payout_score": 92,
+      "tags": [
+        "bookmaker",
+        "bonus"
+      ],
+      "weights": {
+        "country": {
+          "IT": 1.3
+        },
+        "sport": {
+          "soccer_epl": 1.05
+        }
+      },
+      "param_style": {
+        "append": {
+          "utm_source": "bq",
+          "utm_medium": "ref",
+          "utm_campaign": "snai",
+          "cid": "{cid}"
+        }
+      }
+    },
+    {
+      "id": "soft_betburger",
+      "name": "BetBurger • Surebets tool",
+      "slug": "betburger",
+      "url": "https://betburger.com/?ref=YOUR_BETBURGER_REF",
+      "payout_score": 75,
+      "tags": [
+        "software",
+        "surebets"
+      ],
+      "weights": {
+        "sport": {
+          "basketball_nba": 1.05,
+          "tennis_atp": 1.1
+        },
+        "device": {
+          "desktop": 1.1
+        }
+      },
+      "param_style": {
+        "append": {
+          "utm_source": "bq",
+          "utm_medium": "ref",
+          "utm_campaign": "betburger",
+          "cid": "{cid}"
+        }
+      }
+    },
+    {
+      "id": "vpn_nord",
+      "name": "NordVPN • Sconto fino a 66%",
+      "slug": "nordvpn",
+      "url": "https://go.nordvpn.net/aff_c?offer_id=YOUR_NORDVPN_OFFER",
+      "payout_score": 65,
+      "tags": [
+        "vpn",
+        "utility"
+      ],
+      "weights": {
+        "country": {
+          "IT": 1.05,
+          "ES": 1.05
+        }
+      },
+      "param_style": {
+        "append": {
+          "utm_source": "bq",
+          "utm_medium": "ref",
+          "utm_campaign": "nordvpn",
+          "cid": "{cid}"
+        }
+      }
+    },
+    {
+      "id": "amazon_sport",
+      "name": "Amazon • Maglie e Merch Sport",
+      "slug": "amazon-sport",
+      "url": "https://www.amazon.it/s?k=maglia+calcio&tag=YOUR_AMAZON_TAG",
+      "payout_score": 55,
+      "tags": [
+        "merch",
+        "kit"
+      ],
+      "weights": {
+        "sport": {
+          "soccer_epl": 1.1
+        }
+      },
+      "param_style": {
+        "append": {
+          "utm_source": "bq",
+          "utm_medium": "ref",
+          "utm_campaign": "amazon-sport",
+          "cid": "{cid}"
+        }
+      }
+    }
+  ]
+}
