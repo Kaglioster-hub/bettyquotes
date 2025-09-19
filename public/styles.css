@@ -152,3 +152,48 @@ html[data-theme="light"] .badge-blue{ color:#0c4a6e; background:rgba(14,165,233,
 /* Click affordance & focus ring */
 a,button{ cursor:pointer }
 a:focus-visible,button:focus-visible,.chip:focus-visible{ outline:2px solid #38bdf8; outline-offset:2px; border-radius:10px }
+
+/* ===== VRABO LIGHT PRO (high-contrast, accessible) ===== */
+html[data-theme='light']{
+  --bg:#f8fafc; --ink:#0a0f1a; --accent:#ff5b37;
+  --brand:#0a2540; --brand-2:#153e6a;
+  --glass:#ffffff; --stroke:#e5e7eb;
+}
+html[data-theme='light'] body{
+  background:#f8fafc !important; color:var(--ink) !important;
+}
+html[data-theme='light'] .header{
+  background:#ffffff !important; border-bottom:1px solid rgba(2,6,23,.06) !important;
+}
+html[data-theme='light'] .card{
+  background:#ffffff !important; border:1px solid #e5e7eb !important;
+  box-shadow:0 6px 18px rgba(2,6,23,.06) !important;
+}
+html[data-theme='light'] .btn,
+html[data-theme='light'] .oddbtn{
+  background:#ffffff !important; border:1px solid #d1d5db !important; color:#0b0f14 !important;
+}
+html[data-theme='light'] .btn:hover,
+html[data-theme='light'] .oddbtn:hover{ background:#eef2f7 !important }
+html[data-theme='light'] .btn-primary{
+  background:linear-gradient(180deg,#153e6a,#0a2540) !important; border-color:#0a2540 !important; color:#fff !important;
+}
+html[data-theme='light'] .cta{
+  background:linear-gradient(90deg,#0a2540,#153e6a) !important; color:#fff !important;
+}
+html[data-theme='light'] .cta .b{ color:#fff !important }
+html[data-theme='light'] .chip{
+  background:#f1f5f9 !important; border:1px solid #cbd5e1 !important; color:#0f172a !important;
+}
+html[data-theme='light'] .chip.active{
+  background:#dcfce7 !important; border-color:#86efac !important; color:#065f46 !important;
+}
+html[data-theme='light'] .badge-green{ color:#065f46 !important; background:#d1fae5 !important; border-color:#86efac !important }
+html[data-theme='light'] .badge-red{ color:#7f1d1d !important; background:#fee2e2 !important; border-color:#fca5a5 !important }
+html[data-theme='light'] .badge-blue{ color:#0c4a6e !important; background:#e0f2fe !important; border-color:#93c5fd !important }
+html[data-theme='light'] select,
+html[data-theme='light'] input{
+  background:#ffffff !important; color:#0b0f14 !important; border:1px solid #cbd5e1 !important;
+}
+html[data-theme='light'] ::placeholder{ color:#64748b !important }
+html[data-theme='light'] a{ color:#0a2540 }
