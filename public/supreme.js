@@ -55,3 +55,85 @@
   });
 
 })();
+
+/* === SUPREME_HOTFIX_V2 (guarded) === */
+(()=>{ if(window.__BQS_SUPREME_HOTFIX2__) return; window.__BQS_SUPREME_HOTFIX2__=true;
+
+  const chips = document.getElementById("chips");
+  const select = document.getElementById("sportSelect");
+  if(!select){ return; }
+
+  // Leggi config sport
+  async function getSports(){
+    try { const r = await fetch("/public/config.json"); const d = await r.json(); return d?.sports||[]; }
+    catch(e){ return []; }
+  }
+
+  // Popola <select> se vuoto o senza opzioni valide
+  async function ensureSelectOptions(){
+    const opts = [...select.options].filter(o=>o.value && o.textContent.trim().length>0);
+    if(opts.length>0) return;
+    const sports = await getSports(); if(!sports.length) return;
+    const cur = (select.value||"").trim();
+    select.innerHTML = sports.map(s=>`<option value="${s.key}">${s.name}</option>`).join("");
+    // ripristina selezione precedente se compatibile
+    const saved = (()=>{ try{ return localStorage.getItem("bq_sport"); }catch(_){ return null; } })();
+    const want = (saved && sports.some(x=>x.key===saved)) ? saved : (cur && sports.some(x=>x.key===cur) ? cur : sports[0].key);
+    select.value = want;
+  }
+
+  // Ricrea chips se mancano e sincronizza con la select
+  async function ensureChips(){
+    if(!chips) return;
+    if(chips.querySelector(".chip")) return;
+    const sports = await getSports(); if(!sports.length) return;
+    const val = select.value || sports[0].key;
+    chips.innerHTML = sports.slice(0,12).map(s=>{
+      const label = (s.name||"").split("•")[1]?.trim() || s.name;
+      const active = (s.key===val) ? "active" : "";
+      return `<span class="chip ${active}" data-key="${s.key}">${label}</span>`;
+    }).join("");
+  }
+
+  function reloadView(){
+    const top = document.getElementById("btnTop")?.dataset.active==="1";
+    if(top && typeof window.loadTop==="function") window.loadTop();
+    else if(typeof window.loadAndRender==="function") window.loadAndRender("all");
+  }
+
+  function setSport(key, from){
+    if(!key) return;
+    if(from!=="select" && select.value!==key) select.value = key;
+    if(from!=="chip" && chips){
+      chips.querySelectorAll(".chip").forEach(c=> c.classList.toggle("active", c.dataset.key===key));
+    }
+    try{ localStorage.setItem("bq_sport", key); }catch(_){}
+    reloadView();
+  }
+
+  function wire(){
+    // click chips → select
+    chips?.addEventListener("click", e=>{
+      const ch=e.target.closest(".chip"); if(!ch) return;
+      setSport(ch.dataset.key, "chip");
+    });
+    // change select → chips
+    select.addEventListener("change", e=> setSport(e.target.value, "select"));
+
+    const saved = (()=>{ try{ return localStorage.getItem("bq_sport"); }catch(_){ return null; } })();
+    if(saved) setSport(saved); else if(select.value) setSport(select.value);
+  }
+
+  (async function boot(){
+    await ensureSelectOptions();
+    await ensureChips();
+    wire();
+  })();
+
+  // Sblocca click quote: beacon tracking su .oddbtn (delegation)
+  document.addEventListener("click", e=>{
+    const b=e.target.closest(".oddbtn"); if(!b) return;
+    try{ const blob=new Blob([JSON.stringify({bookmaker:b.dataset.book,outcome:b.dataset.outcome,price:b.dataset.odd,ts:Date.now()})],{type:"application/json"}); navigator.sendBeacon("/api/track",blob);}catch(_){}
+  });
+
+})();

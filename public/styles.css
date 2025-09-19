@@ -465,3 +465,8 @@ html[data-theme="light"] .card{ background:#fff; border:1px solid #e5e7eb; box-s
 html[data-theme="light"] .chip{ background:#f1f5f9; border-color:#cbd5e1; color:#0f172a }
 html[data-theme="light"] .chip.active{ background:#dcfce7; border-color:#86efac; color:#065f46 }
 a,button{ cursor:pointer } a:focus-visible,button:focus-visible,.chip:focus-visible{ outline:2px solid #38bdf8; outline-offset:3px; border-radius:10px }
+
+/* SUPREME_HOTFIX_V2 */
+.card, .card * { pointer-events:auto }
+.btn, button, select, .chip, .oddbtn { pointer-events:auto; cursor:pointer }
+select#sportSelect { background-color: transparent }
