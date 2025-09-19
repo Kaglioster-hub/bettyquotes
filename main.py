@@ -1,9 +1,9 @@
 import os, time, json, io, hashlib
 from datetime import datetime, timedelta, timezone
-from flask import Flask, request, jsonify, redirect, make_response, send_file
+from flask import Flask, request, jsonify, make_response, send_file
 import requests
 import xlsxwriter
-from dotenv import load_dotenv  # NEW
+from dotenv import load_dotenv
 
 # === ENV LOAD ===
 load_dotenv(dotenv_path=".env.local")
@@ -201,10 +201,6 @@ def api_export_xls():
     return send_file(output, as_attachment=True, download_name=f"bettyquotes_{sport}.xlsx", mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 
 # === ENTRYPOINT ===
+# Solo per debug locale. Su Vercel non viene eseguito.
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=3000)
-
-# === Vercel handler (single) ===
-from flask import Request
-def handler(request: Request, *args, **kwargs):
-    return app(request, *args, **kwargs)
