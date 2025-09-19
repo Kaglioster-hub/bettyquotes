@@ -1,4 +1,4 @@
-const CACHE='bq-v20250919054959';
+const CACHE='bq-restore-20250919055153'
 const ASSETS=['/','/index.html','/styles.css','/app.js','/manifest.json','/offline.html','/logo/BQ.png'];
 self.addEventListener('install',e=>{
   e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)));
