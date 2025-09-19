@@ -283,3 +283,9 @@ themeBtnEl?.addEventListener('click', ()=>{
   const s=document.getElementById('sportSelect'); if(!s) return;
   s.addEventListener('change', ()=>{ const top=document.getElementById('btnTop')?.dataset.active==='1'; if(top&&typeof window.loadTop==='function') window.loadTop(); else if(typeof window.loadAndRender==='function') window.loadAndRender('all'); });
 })();
+(function(){ /* SUPREME_FALLBACK_TOP */
+  const oTop=window.loadTop, oAll=window.loadAndRender;
+  if(typeof oTop==='function' && typeof oAll==='function'){
+    window.loadTop = async function(){ const list=document.getElementById('list'); await oTop(); if(list && !list.children.length){ await oAll('all'); } };
+  }
+})();

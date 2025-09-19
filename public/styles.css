@@ -481,3 +481,15 @@ select#sportSelect{ background-color:transparent }
 .chip.active{ background:rgba(34,197,94,.18); border-color:rgba(34,197,94,.5) }
 html[data-theme="light"] .chip{ background:#f1f5f9; border-color:#cbd5e1; color:#0f172a }
 html[data-theme="light"] .chip.active{ background:#dcfce7; border-color:#86efac; color:#065f46 }
+
+/* SUPREME_UI */
+html[data-theme="light"] body{ background:#f8fafc }
+html[data-theme="light"] .card{ background:#fff; border:1px solid #e5e7eb; box-shadow:0 6px 16px rgba(0,0,0,.06) }
+.card, .card * { pointer-events:auto }
+.btn, button, select, .chip, .oddbtn{ pointer-events:auto; cursor:pointer }
+select#sportSelect{ background-color:transparent }
+.chip{ display:inline-block; font-size:.8rem; padding:.45rem .8rem; border-radius:999px; border:1px solid rgba(255,255,255,.14); background:rgba(255,255,255,.06); margin:.35rem .4rem .1rem 0 }
+.chip:hover{ transform:translateY(-1px); transition:transform .15s ease }
+.chip.active{ background:rgba(34,197,94,.18); border-color:rgba(34,197,94,.5) }
+html[data-theme="light"] .chip{ background:#f1f5f9; border-color:#cbd5e1; color:#0f172a }
+html[data-theme="light"] .chip.active{ background:#dcfce7; border-color:#86efac; color:#065f46 }

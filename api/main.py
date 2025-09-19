@@ -588,3 +588,112 @@ def api_ping():
     diag['results']=results
     return jsonify(diag)
 # === END BQ_PATCH_V4 ===
+# === BQ_V4_SUPREME ===
+import os, time
+from datetime import datetime, timedelta
+from flask import request, jsonify
+import requests
+
+ODDS_API_KEY=(os.environ.get('ODDS_API_KEY') or '').strip()
+BQ_REGION=(os.environ.get('BQ_REGION') or 'eu').strip() or 'eu'
+SPORTS=[s.strip() for s in (os.environ.get('BQ_SPORTS') or 'soccer_epl,basketball_nba,tennis_atp').split(',') if s.strip()]
+TTL=int(os.environ.get('BQ_TTL_SECONDS') or 300)
+SURE=float(os.environ.get('BQ_SUREBET_MARGIN') or 0.02)
+
+_cache={}
+def cget(k):
+  v=_cache.get(k); 
+  if not v: return None
+  exp,p=v
+  if exp<time.time(): _cache.pop(k,None); return None
+  return p
+def cset(k,p,ttl=TTL): _cache[k]=(time.time()+ttl,p)
+
+def http_json(url,timeout=8):
+  r=requests.get(url,timeout=timeout)
+  try: data=r.json()
+  except: data={'error':'invalid_json','body': r.text[:400]}
+  return data, dict(r.headers), r.status_code
+
+def fetch_v4(sport):
+  if not ODDS_API_KEY: return []
+  ck=f"v4:{sport}:{BQ_REGION}"
+  hit=cget(ck)
+  if hit is not None: return hit
+  base="https://api.the-odds-api.com/v4"
+  qs=f"regions={BQ_REGION}&markets=h2h&oddsFormat=decimal&dateFormat=iso&apiKey={ODDS_API_KEY}"
+  data, hdr, st = http_json(f"{base}/sports/{sport}/odds?{qs}")
+  if isinstance(data,dict) and (data.get('message') or data.get('error')): return []
+  out=[]
+  for ev in data or []:
+    home=(ev.get('home_team') or '').strip()
+    teams=ev.get('teams') or []
+    away=teams[0] if teams and teams[0]!=home else (teams[1] if len(teams)>1 else '')
+    rows=[]
+    for bm in (ev.get('bookmakers') or []):
+      bk=bm.get('key')
+      for mk in (bm.get('markets') or []):
+        if mk.get('key')!='h2h': continue
+        for o in (mk.get('outcomes') or []):
+          try: pr=float(o.get('price') or 0)
+          except: pr=0
+          rows.append({'bookmaker':bk,'outcome':o.get('name'),'price':pr})
+    out.append({'id':ev.get('id'),'sport_key':sport,'commence_time':ev.get('commence_time'),'home':home,'away':away,'odds':rows})
+  cset(ck,out)
+  return out
+
+def best_prices(ev):
+  best={}
+  for r in ev.get('odds',[]):
+    k=(r.get('outcome') or '').strip().lower()
+    if not k: continue
+    if k not in best or r['price']>best[k]['price']: best[k]=r
+  return best
+
+def surebet(ev):
+  b=best_prices(ev)
+  if len(b)<2: return False
+  inv=sum(1.0/max(1e-9,x['price']) for x in b.values())
+  return inv < (1.0 - SURE)
+
+@app.route('/api/odds')
+def api_odds():
+  sport=request.args.get('sport') or (SPORTS[0] if SPORTS else 'soccer_epl')
+  data=fetch_v4(sport)
+  if not data:
+    try: reseed_demo(); data=fetch_v4(sport)
+    except Exception: pass
+  return jsonify(data)
+
+@app.route('/api/top')
+def api_top():
+  items=[]
+  for sp in SPORTS:
+    for ev in fetch_v4(sp):
+      # value score = best vs avg outcome
+      groups={}
+      for r in ev['odds']:
+        k=(r['outcome'] or '').strip().lower()
+        groups.setdefault(k,[]).append(r['price'])
+      score=-9e9
+      for k,arr in groups.items():
+        if not arr: continue
+        avg=sum(arr)/len(arr)
+        b=best_prices(ev).get(k,{'price':avg})
+        v=(b['price']/avg)-1.0
+        if v>score: score=v
+      items.append({**ev,'value_score':score,'sure':surebet(ev)})
+  items.sort(key=lambda x:(not x.get('sure',False), -(x.get('value_score') or 0)))
+  return jsonify(items[:100])
+
+@app.route('/api/ping_odds')
+def api_ping():
+  test=SPORTS[:2] or ['soccer_epl']
+  diag={'region':BQ_REGION,'key_present':bool(ODDS_API_KEY),'sports':test}
+  res=[]
+  for sp in test:
+    data, hdr, st = http_json(f"https://api.the-odds-api.com/v4/sports/{sp}/odds?regions={BQ_REGION}&markets=h2h&oddsFormat=decimal&dateFormat=iso&apiKey={ODDS_API_KEY}")
+    res.append({'sport':sp,'status':st,'remaining':hdr.get('x-requests-remaining'),'count': (len(data) if isinstance(data,list) else 0),'msg': (data.get('message') if isinstance(data,dict) else None)})
+  diag['results']=res
+  return jsonify(diag)
+# === END BQ_V4_SUPREME ===
