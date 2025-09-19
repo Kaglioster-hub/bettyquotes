@@ -253,3 +253,90 @@ html[data-theme="light"] .chip.active{ background:#dcfce7 !important; border-col
 a,button{ cursor:pointer }
 a:focus-visible,button:focus-visible,.chip:focus-visible{ outline:2px solid #38bdf8; outline-offset:2px; border-radius:10px }
 @media (prefers-reduced-motion: reduce){ *,*::before,*::after{ animation:none !important; transition:none !important } }
+
+/* ===== VRABO Supreme 100x ===== */
+:root{ --fs-0:1rem; --fs-1:clamp(1rem,0.6vw+1rem,1.25rem); --fs-2:clamp(1.2rem,1vw+1.1rem,1.5rem) }
+body{ font-size:var(--fs-0) }
+h1{ font-size:var(--fs-2) } h2{ font-size:var(--fs-1) }
+img,svg,video{ max-width:100%; height:auto }
+
+/* Grid responsive */
+.row{ display:grid; grid-template-columns:repeat(8,minmax(0,1fr)); gap:.75rem; align-items:center }
+@media(max-width:1100px){ .row{ grid-template-columns:2fr 2fr 1fr } }
+@media(max-width:760px){ .row{ grid-template-columns:1fr } .row>*{ grid-column:1/-1 } .card{ padding:14px } }
+
+/* Odds buttons responsive */
+.odds-wrap{ display:flex; flex-wrap:wrap; gap:.5rem }
+.oddbtn{ flex:1 1 auto; padding:.7rem 1rem; border-radius:12px; border:1px solid rgba(255,255,255,.15) }
+@media(max-width:760px){ .oddbtn{ flex:1 1 calc(50% - .5rem) } }
+@media(max-width:400px){ .oddbtn{ flex:1 1 100% } }
+
+/* Light theme high-contrast */
+html[data-theme='light'] body{ background:#f8fafc!important; color:#0a0f1a!important }
+html[data-theme='light'] .card{ background:#fff!important; border:1px solid #e5e7eb!important; box-shadow:0 6px 16px rgba(0,0,0,.06)!important }
+html[data-theme='light'] .btn, html[data-theme='light'] .oddbtn{ background:#fff!important; border:1px solid #d1d5db!important; color:#0b0f14!important }
+html[data-theme='light'] .btn:hover, html[data-theme='light'] .oddbtn:hover{ background:#eef2f7!important }
+html[data-theme='light'] .chip{ background:#f1f5f9!important; border:1px solid #cbd5e1!important; color:#0f172a!important }
+html[data-theme='light'] .chip.active{ background:#dcfce7!important; border-color:#86efac!important; color:#065f46!important }
+
+/* Accessibility */
+a,button{ cursor:pointer }
+a:focus-visible,button:focus-visible,.chip:focus-visible{ outline:2px solid #38bdf8; outline-offset:2px; border-radius:10px }
+
+/* ===== VRABO Supreme 100x ===== */
+:root{ --fs-0:1rem; --fs-1:clamp(1rem,0.6vw+1rem,1.25rem); --fs-2:clamp(1.2rem,1vw+1.1rem,1.5rem) }
+body{ font-size:var(--fs-0) }
+h1{ font-size:var(--fs-2) } h2{ font-size:var(--fs-1) }
+img,svg,video{ max-width:100%; height:auto }
+
+/* Grid responsive */
+.row{ display:grid; grid-template-columns:repeat(8,minmax(0,1fr)); gap:.75rem; align-items:center }
+@media(max-width:1100px){ .row{ grid-template-columns:2fr 2fr 1fr } }
+@media(max-width:760px){ .row{ grid-template-columns:1fr } .row>*{ grid-column:1/-1 } .card{ padding:14px } }
+
+/* Odds buttons */
+.odds-wrap{ display:flex; flex-wrap:wrap; gap:.5rem }
+.oddbtn{ flex:1 1 auto; padding:.7rem 1rem; border-radius:12px; border:1px solid rgba(255,255,255,.15) }
+@media(max-width:760px){ .oddbtn{ flex:1 1 calc(50% - .5rem) } }
+@media(max-width:400px){ .oddbtn{ flex:1 1 100% } }
+
+/* Light theme high-contrast */
+html[data-theme="light"] body{ background:#f8fafc!important; color:#0a0f1a!important }
+html[data-theme="light"] .card{ background:#fff!important; border:1px solid #e5e7eb!important; box-shadow:0 6px 16px rgba(0,0,0,.06)!important }
+html[data-theme="light"] .btn, html[data-theme="light"] .oddbtn{ background:#fff!important; border:1px solid #d1d5db!important; color:#0b0f14!important }
+html[data-theme="light"] .btn:hover, html[data-theme="light"] .oddbtn:hover{ background:#eef2f7!important }
+html[data-theme="light"] .chip{ background:#f1f5f9!important; border:1px solid #cbd5e1!important; color:#0f172a!important }
+html[data-theme="light"] .chip.active{ background:#dcfce7!important; border-color:#86efac!important; color:#065f46!important }
+
+/* Accessibility */
+a,button{ cursor:pointer }
+a:focus-visible,button:focus-visible,.chip:focus-visible{ outline:2px solid #38bdf8; outline-offset:2px; border-radius:10px }
+
+/* ===== VRABO Supreme 100x ===== */
+:root{ --fs-0:1rem; --fs-1:clamp(1rem,0.6vw+1rem,1.25rem); --fs-2:clamp(1.2rem,1vw+1.1rem,1.5rem) }
+body{ font-size:var(--fs-0) }
+h1{ font-size:var(--fs-2) } h2{ font-size:var(--fs-1) }
+img,svg,video{ max-width:100%; height:auto }
+
+/* Grid responsive */
+.row{ display:grid; grid-template-columns:repeat(8,minmax(0,1fr)); gap:.75rem; align-items:center }
+@media(max-width:1100px){ .row{ grid-template-columns:2fr 2fr 1fr } }
+@media(max-width:760px){ .row{ grid-template-columns:1fr } .row>*{ grid-column:1/-1 } .card{ padding:14px } }
+
+/* Odds buttons */
+.odds-wrap{ display:flex; flex-wrap:wrap; gap:.5rem }
+.oddbtn{ flex:1 1 auto; padding:.7rem 1rem; border-radius:12px; border:1px solid rgba(0,0,0,.15) }
+@media(max-width:760px){ .oddbtn{ flex:1 1 calc(50% - .5rem) } }
+@media(max-width:400px){ .oddbtn{ flex:1 1 100% } }
+
+/* Light theme high-contrast */
+html[data-theme="light"] body{ background:#f8fafc!important; color:#0a0f1a!important }
+html[data-theme="light"] .card{ background:#fff!important; border:1px solid #e5e7eb!important; box-shadow:0 6px 16px rgba(0,0,0,.06)!important }
+html[data-theme="light"] .btn, html[data-theme="light"] .oddbtn{ background:#fff!important; border:1px solid #d1d5db!important; color:#0b0f14!important }
+html[data-theme="light"] .btn:hover, html[data-theme="light"] .oddbtn:hover{ background:#eef2f7!important }
+html[data-theme="light"] .chip{ background:#f1f5f9!important; border:1px solid #cbd5e1!important; color:#0f172a!important }
+html[data-theme="light"] .chip.active{ background:#dcfce7!important; border-color:#86efac!important; color:#065f46!important }
+
+/* Accessibility */
+a,button{ cursor:pointer }
+a:focus-visible,button:focus-visible,.chip:focus-visible{ outline:2px solid #38bdf8; outline-offset:2px; border-radius:10px }
