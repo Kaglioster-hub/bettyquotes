@@ -1,48 +1,15 @@
 {
-  "sports": [
-    {
-      "name": "Calcio • Premier League",
-      "key": "soccer_epl"
-    },
-    {
-      "name": "Calcio • Serie A",
-      "key": "soccer_italy_serie_a"
-    },
-    {
-      "name": "Calcio • La Liga",
-      "key": "soccer_spain_la_liga"
-    },
-    {
-      "name": "Calcio • Ligue 1",
-      "key": "soccer_france_ligue_one"
-    },
-    {
-      "name": "Calcio • Bundesliga",
-      "key": "soccer_germany_bundesliga"
-    },
-    {
-      "name": "Calcio • Champions League",
-      "key": "soccer_uefa_champions_league"
-    },
-    {
-      "name": "Calcio • Europa League",
-      "key": "soccer_uefa_europa_league"
-    },
-    {
-      "name": "Basket • NBA",
-      "key": "basketball_nba"
-    },
-    {
-      "name": "Basket • Euroleague",
-      "key": "basketball_euroleague"
-    },
-    {
-      "name": "Tennis • ATP",
-      "key": "tennis_atp"
-    },
-    {
-      "name": "Tennis • WTA",
-      "key": "tennis_wta"
-    }
+  "sports":[
+    {"key":"soccer_italy_serie_a","name":"Calcio • Serie A"},
+    {"key":"soccer_epl","name":"Calcio • Premier League"},
+    {"key":"soccer_spain_la_liga","name":"Calcio • La Liga"},
+    {"key":"soccer_france_ligue_one","name":"Calcio • Ligue 1"},
+    {"key":"soccer_germany_bundesliga","name":"Calcio • Bundesliga"},
+    {"key":"soccer_uefa_champions_league","name":"Calcio • Champions League"},
+    {"key":"soccer_uefa_europa_league","name":"Calcio • Europa League"},
+    {"key":"basketball_nba","name":"Basket • NBA"},
+    {"key":"basketball_euroleague","name":"Basket • Euroleague"},
+    {"key":"tennis_atp","name":"Tennis • ATP"},
+    {"key":"tennis_wta","name":"Tennis • WTA"}
   ]
 }
