@@ -203,3 +203,7 @@ def handler(request, *args, **kwargs):
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=3000)
+# Vercel handler
+from flask import Request
+def handler(request: Request, *args, **kwargs):
+    return app(request, *args, **kwargs)
