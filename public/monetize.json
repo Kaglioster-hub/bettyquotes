@@ -1,148 +1,37 @@
 {
-  "version": "1.0",
   "slots": {
     "sidebar": {
-      "count": 4
-    },
-    "inline": {
-      "count": 2
-    },
-    "footer": {
-      "count": 2
+      "count": 3
     }
   },
   "campaigns": [
     {
-      "id": "bk_bet365_bonus",
-      "name": "Bet365 \u2022 Bonus di benvenuto",
-      "slug": "bet365",
-      "url": "https://affiliate.bet365.com/redirect.aspx?pid=YOUR_ID",
-      "payout_score": 95,
+      "id": "bf",
+      "name": "Betfair Bonus",
+      "slug": "betfair",
       "tags": [
-        "bookmaker",
+        "welcome",
         "bonus"
       ],
-      "weights": {
-        "country": {
-          "IT": 1.2,
-          "GB": 1.1
-        },
-        "sport": {
-          "soccer_epl": 1.1
-        },
-        "device": {
-          "mobile": 1.1
-        }
-      },
-      "param_style": {
-        "append": {
-          "utm_source": "bq",
-          "utm_medium": "ref",
-          "utm_campaign": "bet365",
-          "cid": "{cid}"
-        }
-      }
-    },
-    {
-      "id": "bk_snai_bonus",
-      "name": "SNAI \u2022 300\u20ac Bonus",
-      "slug": "snai",
-      "url": "https://affiliati.snai.it/?ref=YOUR_ID",
-      "payout_score": 92,
-      "tags": [
-        "bookmaker",
-        "bonus"
-      ],
-      "weights": {
-        "country": {
-          "IT": 1.3
-        },
-        "sport": {
-          "soccer_epl": 1.05
-        }
-      },
-      "param_style": {
-        "append": {
-          "utm_source": "bq",
-          "utm_medium": "ref",
-          "utm_campaign": "snai",
-          "cid": "{cid}"
-        }
-      }
-    },
-    {
-      "id": "soft_betburger",
-      "name": "BetBurger \u2022 Surebets tool",
-      "slug": "betburger",
-      "url": "https://betburger.com/?ref=YOUR",
+      "url": "https://www.betfair.com/?affiliate=VRABO654",
       "payout_score": 75,
-      "tags": [
-        "software",
-        "surebets"
-      ],
-      "weights": {
-        "sport": {
-          "basketball_nba": 1.05,
-          "tennis_atp": 1.1
-        },
-        "device": {
-          "desktop": 1.1
-        }
-      },
       "param_style": {
         "append": {
-          "utm_source": "bq",
-          "utm_medium": "ref",
-          "utm_campaign": "betburger",
           "cid": "{cid}"
         }
       }
     },
     {
-      "id": "vpn_nord",
-      "name": "NordVPN \u2022 Sconto fino a 66%",
-      "slug": "nordvpn",
-      "url": "https://go.nordvpn.net/aff_c?offer_id=YOUR",
-      "payout_score": 65,
-      "tags": [
-        "vpn",
-        "utility"
-      ],
-      "weights": {
-        "country": {
-          "IT": 1.05,
-          "ES": 1.05
-        }
-      },
-      "param_style": {
-        "append": {
-          "utm_source": "bq",
-          "utm_medium": "ref",
-          "utm_campaign": "nordvpn",
-          "cid": "{cid}"
-        }
-      }
-    },
-    {
-      "id": "amazon_sport",
-      "name": "Amazon \u2022 Maglie e Merch Sport",
+      "id": "amz",
+      "name": "Amazon Sport",
       "slug": "amazon-sport",
-      "url": "https://www.amazon.it/s?k=maglia+calcio&tag=YOURTAG-21",
-      "payout_score": 55,
       "tags": [
-        "merch",
-        "kit"
+        "shopping"
       ],
-      "weights": {
-        "sport": {
-          "soccer_epl": 1.1
-        }
-      },
+      "url": "https://www.amazon.it/sport?tag=vrabo-21",
+      "payout_score": 55,
       "param_style": {
         "append": {
-          "utm_source": "bq",
-          "utm_medium": "ref",
-          "utm_campaign": "amazon-sport",
           "cid": "{cid}"
         }
       }

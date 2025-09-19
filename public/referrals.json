@@ -1,6 +1,9 @@
 {
-  "bet365": "https://affiliate.bet365.com/redirect.aspx?pid=YOUR_ID",
-  "williamhill": "https://ads.williamhill.com/redirect.aspx?pid=YOUR_ID",
-  "snai": "https://affiliati.snai.it/?ref=YOUR_ID",
-  "planetwin": "https://affiliate.planetwin365.it/?ref=YOUR_ID"
+  "bet365": "https://www.bet365.com/?affiliate=VRABO123",
+  "snai": "https://www.snai.it/?aff=VRABO456",
+  "williamhill": "https://www.williamhill.com/?aff=VRABO789",
+  "pinnacle": "https://www.pinnacle.com/?btag=VRABO321",
+  "betfair": "https://www.betfair.com/?affiliate=VRABO654",
+  "planetwin365": "https://www.planetwin365.it/?aff=VRABO777",
+  "amazon": "https://www.amazon.it/sport?tag=vrabo-21"
 }

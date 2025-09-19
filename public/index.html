@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>BettyQuotes — Value Bets, Surebets e Quote Aggregate</title>
-  <meta name="description" content="BettyQuotes: comparatore legale di quote con value bets, surebets, esportazione CSV/XLS e referral tracking."/>
+  <title>BettyQuotes — Value & Sure Bets</title>
+  <meta name="description" content="BettyQuotes: comparatore legale di quote con value bets, surebets e tracking referral."/>
   <link rel="icon" href="/logo/BQ.png" type="image/png" />
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#0a2540" />
   <meta name="robots" content="index,follow" />
-
-  <!-- Tailwind -->
+  <link rel="preconnect" href="https://cdn.tailwindcss.com" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -28,10 +27,8 @@
 </head>
 <body class="h-full bg-white text-slate-900 dark:bg-[#0b0f14] dark:text-slate-100">
   <a id="skip-to-content" href="#list" class="sr-only focus:not-sr-only absolute left-2 top-2 z-50 btn">Salta al contenuto</a>
-
   <div class="min-h-screen flex flex-col">
-    <!-- HEADER -->
-    <header class="sticky top-0 z-30 bg-white/80 dark:bg-[#0b0f14]/80 backdrop-blur border-b border-slate-200/60 dark:border-white/10">
+    <header class="header sticky top-0 z-30 bg-white/80 dark:bg-[#0b0f14]/80 backdrop-blur border-b border-slate-200/60 dark:border-white/10">
       <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
         <div class="flex items-center gap-3">
           <img src="/logo/BQ.png" alt="BettyQuotes" class="w-9 h-9 rounded-lg shadow-sm"/>
@@ -49,43 +46,41 @@
       </div>
     </header>
 
-    <!-- MAIN -->
     <main class="flex-1">
       <div id="heroCta" class="cta text-sm">
         <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div>
-            <div class="font-semibold">BettyQuotes • Migliori quote aggregate</div>
-            <div class="opacity-80">Top eventi, value e surebet da più campionati, gratis.</div>
-          </div>
+          <div class="b"><div class="font-semibold">BettyQuotes • Migliori quote aggregate</div><div class="opacity-80">Top eventi, value e surebet da più campionati, gratis.</div></div>
           <a href="/legal/disclaimer.html" class="btn text-white border-white/30">Leggi disclaimer</a>
         </div>
       </div>
-
       <section class="max-w-6xl mx-auto px-4 py-6">
         <div class="grid md:grid-cols-3 gap-4">
-          <!-- SIDEBAR -->
           <aside class="md:col-span-1 space-y-4">
-            <div class="border rounded-2xl p-4 bg-white/70 dark:bg-white/5 dark:border-white/10">
+            <div class="card">
               <h2 class="font-semibold mb-2">Filtri</h2>
-              <label class="block text-sm mb-2">Sport</label>
               <input id="searchBar" class="w-full p-2 mb-3 rounded-lg border dark:bg-transparent dark:border-white/15" placeholder="Cerca squadra, torneo..." />
               <div id="chips" class="flex flex-wrap gap-2 mb-3"></div>
               <select id="sportSelect" class="w-full p-2 rounded-lg border dark:bg-transparent dark:border-white/15"></select>
-
               <div class="grid grid-cols-2 gap-2 mt-3 text-sm">
-                <button id="btnAll" class="btn px-3 py-2 rounded-lg border dark:border-white/15 hover:bg-slate-50 dark:hover:bg-white/5">Tutti</button>
-                <button id="btnValue" class="btn px-3 py-2 rounded-lg border dark:border-white/15 hover:bg-slate-50 dark:hover:bg-white/5">Value</button>
-                <button id="btnSure" class="btn px-3 py-2 rounded-lg border dark:border-white/15 hover:bg-slate-50 dark:hover:bg-white/5">Surebets</button>
-                <button id="btnExport" class="btn px-3 py-2 rounded-lg border dark:border-white/15 hover:bg-slate-50 dark:hover:bg-white/5">Export CSV</button>
-                <button id="btnTop" class="btn px-3 py-2 rounded-lg border dark:border-white/15 hover:bg-slate-50 dark:hover:bg-white/5">Top</button>
+                <button id="btnAll" class="btn">Tutti</button>
+                <button id="btnValue" class="btn">Value</button>
+                <button id="btnSure" class="btn">Surebets</button>
+                <button id="btnExport" class="btn">Export CSV</button>
+                <button id="btnTop" class="btn">Top</button>
               </div>
             </div>
 
-            <div id="refBanners" class="space-y-3"></div>
+            <div id="refBanners" class="space-y-3">
+              <a href="https://www.amazon.it/sport?tag=vrabo-21" class="card block text-center hover:scale-[1.02] transition">
+                🛒 Compra attrezzatura sportiva su <b>Amazon</b>
+              </a>
+              <a href="https://www.betfair.com/?affiliate=VRABO654" class="card block text-center hover:scale-[1.02] transition">
+                🎲 Bonus esclusivo su <b>Betfair</b>
+              </a>
+            </div>
             <div id="yieldSidebar" class="space-y-3"></div>
           </aside>
 
-          <!-- LISTA -->
           <section class="md:col-span-2">
             <div id="status" class="text-sm opacity-70 mb-3"></div>
             <div id="list" class="space-y-3"></div>
@@ -94,7 +89,6 @@
       </section>
     </main>
 
-    <!-- FOOTER -->
     <footer class="border-t border-slate-200 dark:border-white/10">
       <div class="max-w-6xl mx-auto px-4 py-6 text-xs opacity-80 flex items-center justify-between">
         <div>© <span id="y"></span> BettyQuotes — <a class="underline" href="/legal/disclaimer.html">Disclaimer</a></div>
@@ -103,35 +97,13 @@
     </footer>
   </div>
 
-  <!-- COMPONENTS -->
-  <script type="module" src="/components/ReferralBanner.js"></script>
-  <script type="module" src="/components/PartnerBox.js"></script>
-  <script type="module" src="/components/PremiumModal.js"></script>
-  <script src="/app.js" type="module"></script>
+  <script type="module" src="/supreme.js"></script>
   <script>
-    // Service Worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js');
       });
     }
-
-    // Dark mode toggle
-    const themeBtn = document.getElementById('themeBtn');
-    if (themeBtn) {
-      themeBtn.addEventListener('click', () => {
-        document.documentElement.classList.toggle('dark');
-        localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
-      });
-      // restore
-      if (localStorage.getItem('theme') === 'dark') {
-        document.documentElement.classList.add('dark');
-      }
-    }
-
-    // Year footer
-    document.getElementById("y").textContent = new Date().getFullYear();
   </script>
-  <script src="supreme.js"></script>
 </body>
 </html>

@@ -1,15 +1,15 @@
 {
   "name": "BettyQuotes",
-  "short_name": "BQ",
+  "short_name": "BettyQuotes",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a2540",
+  "theme_color": "#0a2540",
   "icons": [
     {
       "src": "/logo/BQ.png",
       "sizes": "512x512",
       "type": "image/png"
     }
-  ],
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#0a2540"
+  ]
 }
