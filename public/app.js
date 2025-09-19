@@ -22,7 +22,7 @@ function renderSkeleton(n=5){
           <div class="skel h-5 w-40 mb-2"></div>
           <div class="skel h-3 w-28"></div>
         </div>
-        <div class="col-span-3 flex gap-2 flex-wrap">
+        <div class="col-span-3 odds-wrap">
           <div class="skel h-8 w-28"></div>
           <div class="skel h-8 w-28"></div>
           <div class="skel h-8 w-28"></div>
@@ -129,9 +129,9 @@ async function loadAndRender(mode='all'){
           <div class="text-xs opacity-70">${new Date(ev.commence_time).toLocaleString()}</div>
           <div class="text-xs opacity-70">${ev.sport_key || ''}</div>
         </div>
-        <div class="col-span-3 flex gap-2 flex-wrap">
+        <div class="col-span-3 odds-wrap">
           ${(ev.odds || []).map(o => `
-            <button data-book="${o.bookmaker}" data-outcome="${o.outcome}" data-odd="${o.price}" class="px-2 py-1 rounded-lg border text-sm hover:bg-slate-50 dark:hover:bg-white/5">
+            <button data-book="${o.bookmaker}" data-outcome="${o.outcome}" data-odd="${o.price}" class="oddbtn text-sm hover:bg-slate-50 dark:hover:bg-white/5">
               ${o.bookmaker}: <span class="font-mono">${o.outcome}</span> @ <span class="font-semibold">${o.price}</span>
             </button>
           `).join('')}
@@ -198,9 +198,9 @@ async function loadTop(){
           <div class="text-xs opacity-70">${new Date(ev.commence_time).toLocaleString()}</div>
           <div class="text-xs opacity-70">${ev.sport_key || ''}</div>
         </div>
-        <div class="col-span-3 flex gap-2 flex-wrap">
+        <div class="col-span-3 odds-wrap">
           ${(ev.odds || []).slice(0,8).map(o => `
-            <button data-book="${o.bookmaker}" data-outcome="${o.outcome}" data-odd="${o.price}" class="px-2 py-1 rounded-lg border text-sm hover:bg-slate-50 dark:hover:bg-white/5">
+            <button data-book="${o.bookmaker}" data-outcome="${o.outcome}" data-odd="${o.price}" class="oddbtn text-sm hover:bg-slate-50 dark:hover:bg-white/5">
               ${o.bookmaker}: <span class="font-mono">${o.outcome}</span> @ <span class="font-semibold">${o.price}</span>
             </button>
           `).join('')}
@@ -267,3 +267,4 @@ themeBtnEl?.addEventListener('click', ()=>{
   const cur = document.documentElement.getAttribute('data-theme') || 'dark';
   applyThemeData(cur==='dark' ? 'light' : 'dark');
 });
+
