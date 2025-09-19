@@ -269,51 +269,32 @@ themeBtnEl?.addEventListener('click', ()=>{
 
 
 
+\n\n
 \n/* BQSYNC */(function(){
-  const sportSelect = document.querySelector('#sportSelect');
-  const chipsEl = document.querySelector('#chips');
-  const ids = ['btnAll','btnValue','btnSure','btnExport','btnTop'];
-  function markActive(btn){ ids.forEach(id=>{const b=document.getElementById(id); if(!b) return; if(b===btn){ b.dataset.active='1'; } else { b.removeAttribute('data-active'); }}); }
-  function setSport(key){
+  const sportSelect=document.querySelector('#sportSelect');
+  const chipsEl=document.querySelector('#chips');
+  if(!sportSelect||!chipsEl) return;
+
+  function setSport(key,from){
     if(!key) return;
-    try{ localStorage.setItem('bq_sport', key); }catch(e){}
-    if(sportSelect && sportSelect.value!==key) sportSelect.value = key;
-    if(chipsEl){
-      chipsEl.querySelectorAll('.chip').forEach(ch=> ch.classList.toggle('active', ch.dataset.key===key));
+    try{ localStorage.setItem('bq_sport',key); }catch(e){}
+    if(from!=='select' && sportSelect.value!==key) sportSelect.value=key;
+    if(from!=='chip'){
+      chipsEl.querySelectorAll('.chip').forEach(ch=>{
+        ch.classList.toggle('active', ch.dataset.key===key);
+      });
     }
-    const isTop = document.getElementById('btnTop')?.dataset.active==='1';
-    const go = isTop && typeof window.loadTop==='function' ? window.loadTop
-              : (typeof window.loadAndRender==='function' ? window.loadAndRender : null);
-    if(go) go();
-  }
-  // Debounce loadTop/loadAndRender per evitare doppie chiamate
-  function debounce(fn, ms){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn.apply(window,a), ms); }; }
-  if(typeof window.loadTop==='function')   window.loadTop   = debounce(window.loadTop,   150);
-  if(typeof window.loadAndRender==='function') window.loadAndRender = debounce(window.loadAndRender, 150);
-
-  // Wire select
-  sportSelect?.addEventListener('change', e=> setSport(e.target.value));
-
-  // Wire chips (già renderizzate)
-  if(chipsEl){
-    chipsEl.querySelectorAll('.chip').forEach(ch=>{
-      ch.addEventListener('click', ()=> setSport(ch.dataset.key));
-    });
+    if(typeof window.loadAndRender==='function') window.loadAndRender();
+    if(typeof window.loadTop==='function' && document.getElementById('btnTop')?.dataset.active==='1'){
+      window.loadTop();
+    }
   }
 
-  // Wire pulsanti per ricordare la vista attiva
-  document.getElementById('btnTop')  ?.addEventListener('click', e=> markActive(e.currentTarget));
-  document.getElementById('btnAll')  ?.addEventListener('click', e=> markActive(e.currentTarget));
-  document.getElementById('btnValue')?.addEventListener('click', e=> markActive(e.currentTarget));
-  document.getElementById('btnSure') ?.addEventListener('click', e=> markActive(e.currentTarget));
+  sportSelect.addEventListener('change',e=> setSport(e.target.value,'select'));
+  chipsEl.querySelectorAll('.chip').forEach(ch=>{
+    ch.addEventListener('click',()=> setSport(ch.dataset.key,'chip'));
+  });
 
-  // Restore sport preferito
-  const saved = (()=>{
-    try{ return localStorage.getItem('bq_sport'); }catch(e){ return null; }
-  })();
-  if(saved){ setSport(saved); }
-  else if(sportSelect?.value){ try{ localStorage.setItem('bq_sport', sportSelect.value); }catch(e){} }
-
-  // Espone setSport per eventuali usi futuri
-  window.bqSetSport = setSport;
+  const saved=(()=>{try{return localStorage.getItem('bq_sport');}catch(e){return null;}})();
+  if(saved) setSport(saved);
 })();/* /BQSYNC */\n
