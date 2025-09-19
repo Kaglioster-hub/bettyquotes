@@ -1,12 +1,49 @@
-/* Minimal custom styles (Tailwind via CDN for utilities) */
-:root {
-  --brand:#0a2540;
-  --accent:#ff5b37;
+/* === BettyQuotes SUPER WOW UI ===
+   Tailwind utilities via CDN; this file adds custom tokens, effects and patterns. */
+:root{
+  --brand:#0a2540;      /* navy deep */
+  --brand-2:#10243f;
+  --accent:#ff5b37;     /* coral */
+  --mint:#22c55e;       /* green */
+  --rose:#f43f5e;       /* red */
+  --glass: rgba(255,255,255,0.08);
+  --stroke: rgba(255,255,255,0.12);
+  --ink: #0b0f14;
 }
-html { scroll-behavior:smooth; }
-.card { @apply rounded-2xl border p-4 bg-white/70 dark:bg-white/5 dark:border-white/10; }
-.badge { @apply px-2 py-0.5 rounded-md text-xs font-medium border; }
-.badge-green { @apply border-emerald-300/50 text-emerald-700 dark:text-emerald-300; background:rgba(16,185,129,.08) }
-.badge-red { @apply border-rose-300/50 text-rose-700 dark:text-rose-300; background:rgba(244,63,94,.08) }
-.row { @apply grid grid-cols-8 gap-3 items-center; }
-.row > * { @apply truncate; }
+
+html{scroll-behavior:smooth}
+body{background: radial-gradient(1200px 600px at 10% -10%, #1b2838 0%, transparent 50%),
+                 radial-gradient(1000px 500px at 120% 20%, #0b365a33 0%, transparent 40%);}
+/* --- Glass card --- */
+.card{ @apply rounded-2xl border p-4; background:var(--glass); border-color:var(--stroke); backdrop-filter: blur(10px); }
+/* --- Subtle border for light mode --- */
+@media (prefers-color-scheme: light){
+  body{ background: radial-gradient(1200px 600px at 10% -10%, #f4f7fb 0%, transparent 50%),
+                   radial-gradient(1000px 500px at 120% 20%, #e9f1ff 0%, transparent 40%);}
+  .card{ background: rgba(255,255,255,.75); border-color: #e5e7eb }
+}
+
+.badge{ @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium border; }
+.badge-green{ @apply border-emerald-300/50 text-emerald-600 dark:text-emerald-300; background: rgba(16,185,129,.10); }
+.badge-red{ @apply border-rose-300/50 text-rose-600 dark:text-rose-300; background: rgba(244,63,94,.12); }
+.badge-blue{ @apply border-sky-300/50 text-sky-600 dark:text-sky-300; background: rgba(14,165,233,.12); }
+.chip{ @apply text-xs px-3 py-1 rounded-full border cursor-pointer select-none; border-color: var(--stroke); }
+.chip.active{ background: rgba(255,255,255,.12) }
+.row{ @apply grid grid-cols-8 gap-3 items-center; }
+.row > *{ @apply truncate; }
+
+/* Skeleton shimmer */
+.skel{ position: relative; overflow: hidden; background: linear-gradient(90deg,#ffffff0d,#ffffff15,#ffffff0d); background-size: 200% 100%; animation: shimmer 1.3s infinite; border-radius: 12px; }
+@keyframes shimmer{ 0%{ background-position: 200% 0 } 100%{ background-position: -200% 0 } }
+
+/* Buttons */
+.btn{ @apply px-3 py-2 rounded-lg border text-sm; border-color: var(--stroke); }
+.btn:hover{ @apply bg-slate-50 dark:bg-white/5; }
+
+/* Header */
+.header{ background: linear-gradient(180deg, #0b1220dd, #0b1220aa 60%, transparent); }
+.logo { filter: drop-shadow(0 6px 12px rgba(0,0,0,.35)); }
+
+/* CTA banner */
+.cta{ background: radial-gradient(600px 200px at 0% 0%, #1b3a74 0, transparent 60%), linear-gradient(90deg, #0a2540, #153e6a); }
+.cta .b{ @apply text-white }

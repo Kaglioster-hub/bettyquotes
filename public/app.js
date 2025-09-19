@@ -5,6 +5,36 @@ const statusEl = $("#status");
 const y = $("#y");
 y.textContent = new Date().getFullYear();
 
+// UI helpers
+function toast(msg){
+  const t = document.createElement('div');
+  t.className = 'fixed bottom-5 right-5 z-50 card px-4 py-3 text-sm';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(), 2500);
+}
+
+function renderSkeleton(n=5){
+  list.innerHTML = Array.from({length:n}).map(()=>`
+    <div class="card">
+      <div class="grid grid-cols-8 gap-3 items-center">
+        <div class="col-span-3">
+          <div class="skel h-5 w-40 mb-2"></div>
+          <div class="skel h-3 w-28"></div>
+        </div>
+        <div class="col-span-3 flex gap-2 flex-wrap">
+          <div class="skel h-8 w-28"></div>
+          <div class="skel h-8 w-28"></div>
+          <div class="skel h-8 w-28"></div>
+        </div>
+        <div class="col-span-2 text-right">${best ? `<div class='text-xs opacity-70 mb-1'>BEST: <b>${best.outcome}</b> @ <b>${best.price}</b> (${best.bookmaker})</div>`:''}
+          <div class="skel h-6 w-24 ml-auto"></div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+
 const i18n = {
   lang: localStorage.getItem("bq_lang") || (navigator.language || "en").slice(0,2),
   t(key){ const dict = this.lang.startsWith("it") ? it : en; return (dict[key]||key); }
@@ -73,7 +103,7 @@ async function beacon(endpoint, payload){
 
 async function loadAndRender(mode='all'){
   const sp = sportSelect.value;
-  statusEl.textContent = 'Loading…';
+  statusEl.textContent = 'Loading…'; renderSkeleton(6);
   let data = [];
   try{
     const url = mode==='value' ? `/api/valuebets?sport=${sp}` :
@@ -86,6 +116,10 @@ async function loadAndRender(mode='all'){
 
   list.innerHTML = "";
   data.forEach(ev => {
+    // compute best price inside frontend for quick highlight
+    let best = null;
+    (ev.odds||[]).forEach(o=>{ if(!best || o.price>best.price) best = o; });
+
     const card = document.createElement('div');
     card.className = 'card';
     card.innerHTML = `
@@ -102,7 +136,7 @@ async function loadAndRender(mode='all'){
             </button>
           `).join('')}
         </div>
-        <div class="col-span-2 text-right">
+        <div class="col-span-2 text-right">${best ? `<div class='text-xs opacity-70 mb-1'>BEST: <b>${best.outcome}</b> @ <b>${best.price}</b> (${best.bookmaker})</div>`:''}
           ${(ev.edge!=null) ? `<span class="badge ${ev.edge>=0? 'badge-green':'badge-red'}">edge ${(ev.edge*100).toFixed(1)}%</span>`:''}
           ${(ev.sure!=null) ? `<span class="badge ${ev.sure? 'badge-green':'badge-red'} ml-2">${ev.sure?'SUREBET':'NO-ARB'}</span>`:''}
         </div>
@@ -149,6 +183,10 @@ async function loadTop(){
   statusEl.textContent = `${data.length} top eventi`;
   list.innerHTML = "";
   data.forEach(ev => {
+    // compute best price inside frontend for quick highlight
+    let best = null;
+    (ev.odds||[]).forEach(o=>{ if(!best || o.price>best.price) best = o; });
+
     const card = document.createElement('div');
     card.className = 'card';
     const tagSure = ev.sure ? `<span class="badge badge-green ml-2">SUREBET</span>` : ``;
@@ -167,7 +205,7 @@ async function loadTop(){
             </button>
           `).join('')}
         </div>
-        <div class="col-span-2 text-right">${tagVal}${tagSure}</div>
+        <div class="col-span-2 text-right">${best ? `<div class='text-xs opacity-70 mb-1'>BEST: <b>${best.outcome}</b> @ <b>${best.price}</b> (${best.bookmaker})</div>`:''}${tagVal}${tagSure}</div>
       </div>
     `;
     card.querySelectorAll('button').forEach(btn=>{
@@ -187,3 +225,27 @@ async function loadTop(){
     list.appendChild(card);
   });
 }
+
+// Create chips from sports config
+const chips = $("#chips");
+if (chips && sports.sports?.length){
+  chips.innerHTML = sports.sports.slice(0,8).map((s,i)=>`<span class="chip ${i===0?'active':''}" data-key="${s.key}">${s.name.split('•')[1]?.trim()||s.name}</span>`).join('');
+  chips.querySelectorAll('.chip').forEach(ch=>{
+    ch.addEventListener('click', ()=>{
+      chips.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+      ch.classList.add('active');
+      sportSelect.value = ch.dataset.key;
+      loadAndRender('all');
+    });
+  });
+}
+
+// search by team/league locally
+const searchBar = $("#searchBar");
+searchBar?.addEventListener('input', ()=>{
+  const q = searchBar.value.trim().toLowerCase();
+  document.querySelectorAll('#list .card').forEach(card=>{
+    const txt = card.textContent.toLowerCase();
+    card.style.display = txt.includes(q) ? '' : 'none';
+  });
+});

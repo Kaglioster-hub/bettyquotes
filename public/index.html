@@ -45,12 +45,20 @@
     </header>
 
     <main class="flex-1">
+      <div id="heroCta" class="cta text-sm">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+          <div class="b"><div class="font-semibold">BettyQuotes • Migliori quote aggregate</div><div class="opacity-80">Top eventi, value e surebet da più campionati, gratis.</div></div>
+          <a href="/legal/disclaimer.html" class="btn text-white border-white/30">Leggi disclaimer</a>
+        </div>
+      </div>
       <section class="max-w-6xl mx-auto px-4 py-6">
         <div class="grid md:grid-cols-3 gap-4">
           <aside class="md:col-span-1 space-y-4">
             <div class="border rounded-2xl p-4 bg-white/70 dark:bg-white/5 dark:border-white/10">
               <h2 class="font-semibold mb-2">Filtri</h2>
               <label class="block text-sm mb-2">Sport</label>
+              <input id="searchBar" class="w-full p-2 mb-3 rounded-lg border dark:bg-transparent dark:border-white/15" placeholder="Cerca squadra, torneo..." />
+              <div id="chips" class="flex flex-wrap gap-2 mb-3"></div>
               <select id="sportSelect" class="w-full p-2 rounded-lg border dark:bg-transparent dark:border-white/15"></select>
 
               <div class="grid grid-cols-2 gap-2 mt-3 text-sm">
