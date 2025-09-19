@@ -107,3 +107,48 @@ a:focus-visible,button:focus-visible,.chip:focus-visible{ box-shadow:var(--ring)
 @media (max-width: 920px){
   .row{ grid-template-columns:1.5fr 1.5fr 1fr }
 }
+
+/* === THEME ENGINE (data-theme: dark|light) === */
+:root{
+  --bg:#0b0f14; --ink:#e8eef7;
+  --brand:#0a2540; --brand-2:#153e6a; --accent:#ff5b37;
+  --glass:rgba(255,255,255,.08); --stroke:rgba(255,255,255,.14);
+}
+/* Tema chiaro (VRABO SUPREME LIGHT) */
+html[data-theme="light"]{
+  --bg:#f7fafc; --ink:#0b0f14;
+  --brand:#e6f0ff; --brand-2:#d7e6ff; --accent:#ff5b37;
+  --glass:rgba(255,255,255,.82); --stroke:rgba(15,23,42,.12);
+}
+/* Background dinamico per i due temi */
+html[data-theme="light"] body{
+  background:
+    radial-gradient(1400px 700px at -10% -20%, #e6f0ff 0%, transparent 55%),
+    radial-gradient(1200px 600px at 110% 10%, #dfeaff 0%, transparent 50%),
+    linear-gradient(180deg, #ffffff 0%, #f6f9ff 35%, #ffffff 100%) !important;
+  color:var(--ink);
+}
+/* Header più chiaro in light */
+html[data-theme="light"] .header{
+  background:linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,255,255,.7) 60%, transparent);
+  border-bottom:1px solid var(--stroke);
+}
+/* Cards in light */
+html[data-theme="light"] .card{
+  background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.85));
+  border-color: var(--stroke);
+}
+/* Bottoni in light */
+html[data-theme="light"] .btn,
+html[data-theme="light"] .oddbtn{
+  background:linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,255,255,.90));
+  border-color: var(--stroke);
+  color:#0b0f14;
+}
+/* Badge colori coerenti in light */
+html[data-theme="light"] .badge-green{ color:#065f46; background:rgba(16,185,129,.18); border-color:rgba(16,185,129,.45) }
+html[data-theme="light"] .badge-red{ color:#7f1d1d; background:rgba(244,63,94,.18); border-color:rgba(244,63,94,.45) }
+html[data-theme="light"] .badge-blue{ color:#0c4a6e; background:rgba(14,165,233,.18); border-color:rgba(14,165,233,.45) }
+/* Click affordance & focus ring */
+a,button{ cursor:pointer }
+a:focus-visible,button:focus-visible,.chip:focus-visible{ outline:2px solid #38bdf8; outline-offset:2px; border-radius:10px }

@@ -249,3 +249,21 @@ searchBar?.addEventListener('input', ()=>{
     card.style.display = txt.includes(q) ? '' : 'none';
   });
 });
+
+// === THEME ENGINE (data-theme) ===
+const themeBtnEl = document.getElementById('themeBtn');
+function preferredTheme(){
+  const saved = localStorage.getItem('theme');
+  if (saved === 'light' || saved === 'dark') return saved;
+  return window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+}
+function applyThemeData(t){
+  document.documentElement.setAttribute('data-theme', t);
+  localStorage.setItem('theme', t);
+  if (themeBtnEl) themeBtnEl.textContent = (t==='dark' ? '☾' : '☀︎');
+}
+applyThemeData(preferredTheme());
+themeBtnEl?.addEventListener('click', ()=>{
+  const cur = document.documentElement.getAttribute('data-theme') || 'dark';
+  applyThemeData(cur==='dark' ? 'light' : 'dark');
+});
