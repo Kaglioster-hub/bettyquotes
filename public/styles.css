@@ -340,3 +340,23 @@ html[data-theme="light"] .chip.active{ background:#dcfce7!important; border-colo
 /* Accessibility */
 a,button{ cursor:pointer }
 a:focus-visible,button:focus-visible,.chip:focus-visible{ outline:2px solid #38bdf8; outline-offset:2px; border-radius:10px }
+
+/* ===== VRABO Ultra Polish ===== */
+:root{ --ring:#38bdf8; --selBg:#0a2540; --selFg:#fff; --tap:rgba(56,189,248,.25) }
+*{-webkit-tap-highlight-color: transparent}
+::selection{ background:var(--selBg); color:var(--selFg) }
+a,button{ cursor:pointer }
+a:focus-visible,button:focus-visible,.chip:focus-visible{ outline:2px solid var(--ring); outline-offset:2px; border-radius:10px }
+.btn:active,.oddbtn:active{ transform:translateY(0) scale(.99) }
+@media (prefers-reduced-motion: reduce){ *,*::before,*::after{ animation:none!important; transition:none!important } }
+/* Subtle ripple on .oddbtn (disabled with reduced-motion) */
+.oddbtn{ position:relative; overflow:hidden }
+.oddbtn:focus-visible{ box-shadow:0 0 0 2px rgba(56,189,248,.5) }
+@media (prefers-reduced-motion: no-preference){
+  .oddbtn::after{ content:""; position:absolute; inset:0; background:radial-gradient(120px 120px at var(--rx,50%) var(--ry,50%), rgba(56,189,248,.18), transparent 60%); opacity:0; transition:opacity .35s ease }
+  .oddbtn:active::after{ opacity:1 }
+}
+/* Scrollbar (Chromium/Edge) */
+*::-webkit-scrollbar{ height:10px; width:10px }
+*::-webkit-scrollbar-thumb{ background:#cbd5e1; border-radius:8px }
+html[data-theme="light"] *::-webkit-scrollbar-thumb{ background:#94a3b8 }

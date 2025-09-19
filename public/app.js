@@ -50,10 +50,7 @@ await loadLang();
 // Theme toggle
 const themeBtn = $("#themeBtn");
 const langBtn = $("#langBtn");
-function applyTheme(){
-  const m = localStorage.getItem("theme") || (window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark":"light");
-  document.documentElement.classList.toggle("dark", m==="dark");
-}
+function applyTheme(){ const m = localStorage.getItem("theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark":"light"); const root=document.documentElement; root.classList.toggle("dark", m==="dark"); root.setAttribute("data-theme", m==="dark"?"dark":"light"); const b=document.getElementById("themeBtn"); if(b){ const pressed=(m==="dark"); b.setAttribute("aria-pressed", String(pressed)); b.setAttribute("title", pressed? "Tema scuro attivo" : "Tema chiaro attivo"); b.textContent = pressed ? "☾" : "☀︎"; } }
 applyTheme();
 themeBtn?.addEventListener("click", ()=>{
   const cur = document.documentElement.classList.contains("dark") ? "dark":"light";
@@ -131,7 +128,7 @@ async function loadAndRender(mode='all'){
         </div>
         <div class="col-span-3 odds-wrap">
           ${(ev.odds || []).map(o => `
-            <button data-book="${o.bookmaker}" data-outcome="${o.outcome}" data-odd="${o.price}" class="oddbtn text-sm hover:bg-slate-50 dark:hover:bg-white/5">
+            <button data-book="${o.bookmaker}" data-outcome="${o.outcome}" data-odd="${o.price}" role="button" tabindex="0" aria-label="${o.bookmaker}: ${o.outcome} @ ${o.price}" title="${o.bookmaker}: ${o.outcome} @ ${o.price}" class="oddbtn text-sm hover:bg-slate-50 dark:hover:bg-white/5">
               ${o.bookmaker}: <span class="font-mono">${o.outcome}</span> @ <span class="font-semibold">${o.price}</span>
             </button>
           `).join('')}
@@ -200,7 +197,7 @@ async function loadTop(){
         </div>
         <div class="col-span-3 odds-wrap">
           ${(ev.odds || []).slice(0,8).map(o => `
-            <button data-book="${o.bookmaker}" data-outcome="${o.outcome}" data-odd="${o.price}" class="oddbtn text-sm hover:bg-slate-50 dark:hover:bg-white/5">
+            <button data-book="${o.bookmaker}" data-outcome="${o.outcome}" data-odd="${o.price}" role="button" tabindex="0" aria-label="${o.bookmaker}: ${o.outcome} @ ${o.price}" title="${o.bookmaker}: ${o.outcome} @ ${o.price}" class="oddbtn text-sm hover:bg-slate-50 dark:hover:bg-white/5">
               ${o.bookmaker}: <span class="font-mono">${o.outcome}</span> @ <span class="font-semibold">${o.price}</span>
             </button>
           `).join('')}
@@ -267,6 +264,7 @@ themeBtnEl?.addEventListener('click', ()=>{
   const cur = document.documentElement.getAttribute('data-theme') || 'dark';
   applyThemeData(cur==='dark' ? 'light' : 'dark');
 });
+
 
 
 
