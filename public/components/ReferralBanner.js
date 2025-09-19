@@ -4,10 +4,11 @@ export function mount(sel){
   fetch('/referrals.json').then(r=>r.json()).then(refs=>{
     const items = Object.entries(refs).slice(0,4);
     el.innerHTML = items.map(([k,v])=>`
-      <a href="/go/${k}" class="block p-3 rounded-xl border dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/5">
+      <a href="/go/${k}" class="block p-3 rounded-xl border dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/5 cursor-pointer">
         <div class="text-sm font-medium">${k.toUpperCase()}</div>
         <div class="text-xs opacity-70">Bonus esclusivo →</div>
       </a>
     `).join('');
   });
 }
+
