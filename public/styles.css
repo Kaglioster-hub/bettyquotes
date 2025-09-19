@@ -1,49 +1,109 @@
-/* === BettyQuotes SUPER WOW UI ===
-   Tailwind utilities via CDN; this file adds custom tokens, effects and patterns. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Playfair+Display:wght@600;700&display=swap');
+
+/* =========================
+   VRABO SUPREME THEME CSS
+   ========================= */
 :root{
-  --brand:#0a2540;      /* navy deep */
-  --brand-2:#10243f;
-  --accent:#ff5b37;     /* coral */
-  --mint:#22c55e;       /* green */
-  --rose:#f43f5e;       /* red */
-  --glass: rgba(255,255,255,0.08);
-  --stroke: rgba(255,255,255,0.12);
-  --ink: #0b0f14;
+  --bg:#0b0f14; --bg-2:#0e1622; --ink:#e8eef7;
+  --brand:#0a2540; --brand-2:#153e6a; --accent:#ff5b37; --mint:#22c55e; --sky:#38bdf8; --rose:#f43f5e;
+  --glass:rgba(255,255,255,.08); --stroke:rgba(255,255,255,.14);
+  --ring:0 0 0 2px rgba(56,189,248,.55), 0 8px 22px rgba(0,0,0,.25);
 }
 
 html{scroll-behavior:smooth}
-body{background: radial-gradient(1200px 600px at 10% -10%, #1b2838 0%, transparent 50%),
-                 radial-gradient(1000px 500px at 120% 20%, #0b365a33 0%, transparent 40%);}
-/* --- Glass card --- */
-.card{ @apply rounded-2xl border p-4; background:var(--glass); border-color:var(--stroke); backdrop-filter: blur(10px); }
-/* --- Subtle border for light mode --- */
-@media (prefers-color-scheme: light){
-  body{ background: radial-gradient(1200px 600px at 10% -10%, #f4f7fb 0%, transparent 50%),
-                   radial-gradient(1000px 500px at 120% 20%, #e9f1ff 0%, transparent 40%);}
-  .card{ background: rgba(255,255,255,.75); border-color: #e5e7eb }
+body{
+  font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  background:
+    radial-gradient(1400px 700px at -10% -20%, #153e6a33 0%, transparent 55%),
+    radial-gradient(1200px 600px at 110% 10%, #0a254033 0%, transparent 50%),
+    linear-gradient(180deg, #0b0f14 0%, #0b1320 35%, #0b0f14 100%);
+  color:var(--ink);
 }
 
-.badge{ @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium border; }
-.badge-green{ @apply border-emerald-300/50 text-emerald-600 dark:text-emerald-300; background: rgba(16,185,129,.10); }
-.badge-red{ @apply border-rose-300/50 text-rose-600 dark:text-rose-300; background: rgba(244,63,94,.12); }
-.badge-blue{ @apply border-sky-300/50 text-sky-600 dark:text-sky-300; background: rgba(14,165,233,.12); }
-.chip{ @apply text-xs px-3 py-1 rounded-full border cursor-pointer select-none; border-color: var(--stroke); }
-.chip.active{ background: rgba(255,255,255,.12) }
-.row{ @apply grid grid-cols-8 gap-3 items-center; }
-.row > *{ @apply truncate; }
+/* Headings eleganti */
+h1,h2,h3{font-family:"Playfair Display",serif; letter-spacing:-.01em}
+h1{font-weight:700}
+h2,h3{font-weight:600}
 
-/* Skeleton shimmer */
-.skel{ position: relative; overflow: hidden; background: linear-gradient(90deg,#ffffff0d,#ffffff15,#ffffff0d); background-size: 200% 100%; animation: shimmer 1.3s infinite; border-radius: 12px; }
-@keyframes shimmer{ 0%{ background-position: 200% 0 } 100%{ background-position: -200% 0 } }
+/* Container */
+.container{max-width:1200px;margin-inline:auto;padding-inline:1rem}
+
+/* Cards vetro */
+.card{
+  border:1px solid var(--stroke); border-radius:18px; padding:16px;
+  background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  backdrop-filter: blur(12px);
+  transition:transform .18s ease, box-shadow .2s ease, background .2s ease;
+}
+.card:hover{ transform:translateY(-2px); box-shadow:0 10px 26px rgba(0,0,0,.25) }
 
 /* Buttons */
-.btn{ @apply px-3 py-2 rounded-lg border text-sm; border-color: var(--stroke); }
-.btn:hover{ @apply bg-slate-50 dark:bg-white/5; }
+.btn{
+  display:inline-flex; align-items:center; gap:.5rem;
+  padding:.6rem .9rem; border-radius:12px; border:1px solid var(--stroke);
+  background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  transition:transform .15s ease, background .2s ease, box-shadow .2s ease;
+}
+.btn:hover{ transform:translateY(-1px); box-shadow:0 8px 20px rgba(0,0,0,.18) }
+.btn:active{ transform:translateY(0) scale(.99) }
+.btn-primary{ border-color:#1f3f75; background:linear-gradient(180deg, var(--brand-2), var(--brand)); color:#fff }
+.btn-primary:hover{ box-shadow:0 10px 28px rgba(21,62,106,.35) }
+.btn-accent{ border-color:#ff6a49aa; background:linear-gradient(180deg,#ff734d,#ff5b37); color:#0b0f14 }
 
-/* Header */
-.header{ background: linear-gradient(180deg, #0b1220dd, #0b1220aa 60%, transparent); }
-.logo { filter: drop-shadow(0 6px 12px rgba(0,0,0,.35)); }
+/* Chips sport */
+.chip{
+  font-size:.78rem; padding:.35rem .75rem; border-radius:999px;
+  border:1px solid var(--stroke); cursor:pointer; user-select:none;
+  background:rgba(255,255,255,.05); transition:background .2s ease, transform .15s ease, box-shadow .2s ease;
+}
+.chip:hover{ transform:translateY(-1px); box-shadow:0 8px 20px rgba(0,0,0,.15) }
+.chip.active{ background:rgba(34,197,94,.15); border-color:rgba(34,197,94,.45) }
 
-/* CTA banner */
-.cta{ background: radial-gradient(600px 200px at 0% 0%, #1b3a74 0, transparent 60%), linear-gradient(90deg, #0a2540, #153e6a); }
-.cta .b{ @apply text-white }
+/* Badges */
+.badge{display:inline-flex;align-items:center;gap:.35rem;padding:.15rem .5rem;border-radius:10px;border:1px solid var(--stroke);font-size:.72rem}
+.badge-green{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.45);color:#86efac}
+.badge-red{background:rgba(244,63,94,.12);border-color:rgba(244,63,94,.45);color:#fda4af}
+.badge-blue{background:rgba(56,189,248,.12);border-color:rgba(56,189,248,.45);color:#bae6fd}
+
+/* BEST highlight */
+.best{
+  font-size:.75rem; opacity:.9; padding:.25rem .5rem; border-radius:8px;
+  background:rgba(59,130,246,.12); border:1px solid rgba(59,130,246,.35);
+}
+
+/* Grid rows */
+.row{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:.75rem;align-items:center}
+.row>*{min-width:0}
+
+/* Odds button */
+.oddbtn{
+  padding:.45rem .6rem; border-radius:10px; border:1px solid var(--stroke);
+  background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  font-size:.86rem; transition:transform .15s ease, box-shadow .2s ease, background .2s ease;
+}
+.oddbtn:hover{ transform:translateY(-1px); box-shadow:0 10px 26px rgba(0,0,0,.22) }
+
+/* Skeleton shimmer */
+.skel{ position:relative; overflow:hidden; border-radius:12px; background:#ffffff10 }
+.skel::after{
+  content:""; position:absolute; inset:0;
+  background:linear-gradient(90deg, transparent, #ffffff30, transparent);
+  transform:translateX(-100%); animation:shimmer 1.3s infinite;
+}
+@keyframes shimmer{ 100%{ transform:translateX(100%) } }
+
+/* Header bar */
+.header{
+  background:linear-gradient(180deg, rgba(10,37,64,.9), rgba(10,37,64,.6) 60%, transparent);
+  border-bottom:1px solid var(--stroke);
+}
+.logo{ filter:drop-shadow(0 6px 12px rgba(0,0,0,.35)) }
+
+/* Click affordance + focus ring */
+a,button{ cursor:pointer }
+a:focus-visible,button:focus-visible,.chip:focus-visible{ box-shadow:var(--ring); outline:none }
+
+/* Responsive tune */
+@media (max-width: 920px){
+  .row{ grid-template-columns:1.5fr 1.5fr 1fr }
+}
