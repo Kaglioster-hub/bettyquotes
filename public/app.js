@@ -344,3 +344,36 @@ async function bqRenderChips(){
 }
 // esegui appena possibile dopo il boot
 bqRenderChips();
+\n/* SPORT_SYNC: full sync chips <-> select */
+(function(){
+  const select=document.getElementById('sportSelect');
+  const chips=document.getElementById('chips');
+  if(!select||!chips) return;
+
+  function setSport(key,from){
+    if(!key) return;
+    // aggiorna select se vengo da chip
+    if(from!=='select' && select.value!==key) select.value=key;
+    // aggiorna chips se vengo da select
+    if(from!=='chip'){
+      chips.querySelectorAll('.chip').forEach(ch=> ch.classList.toggle('active', ch.dataset.key===key));
+    }
+    // salva preferenza
+    try{ localStorage.setItem('bq_sport',key); }catch(e){}
+    // ricarica la vista attuale
+    const isTop=document.getElementById('btnTop')?.dataset.active==='1';
+    if(isTop && typeof window.loadTop==='function') window.loadTop();
+    else if(typeof window.loadAndRender==='function') window.loadAndRender('all');
+  }
+
+  // eventi
+  select.addEventListener('change', e=> setSport(e.target.value,'select'));
+  chips.querySelectorAll('.chip').forEach(ch=>{
+    ch.addEventListener('click',()=> setSport(ch.dataset.key,'chip'));
+  });
+
+  // restore preferito
+  const saved=(()=>{try{return localStorage.getItem('bq_sport')}catch(e){return null}})();
+  if(saved) setSport(saved);
+  else if(select.value) setSport(select.value);
+})();/* /SPORT_SYNC */\n
