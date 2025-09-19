@@ -298,3 +298,49 @@ themeBtnEl?.addEventListener('click', ()=>{
   const saved=(()=>{try{return localStorage.getItem('bq_sport');}catch(e){return null;}})();
   if(saved) setSport(saved);
 })();/* /BQSYNC */\n
+
+\n/* CHIPS_RESTORE: render chips from config.json + sync with select */
+async function bqRenderChips(){
+  const chips = document.getElementById('chips');
+  const select = document.getElementById('sportSelect');
+  if(!chips || !select) return;
+
+  // tenta di usare la variabile 'sports' se già caricata, altrimenti fetch
+  let data = (typeof sports !== 'undefined' && sports && sports.sports) ? sports :
+             await fetch('/public/config.json').then(r=>r.json()).catch(()=>null);
+  if(!data || !data.sports) return;
+
+  // costruisci le chips
+  chips.innerHTML = data.sports.map((s,i)=>
+    <span class="chip " data-key=""></span>
+  ).join('');
+
+  // click -> aggiorna select e ricarica vista corrente
+  chips.querySelectorAll('.chip').forEach(ch=>{
+    ch.addEventListener('click', ()=>{
+      const key = ch.dataset.key;
+      if(select.value !== key) select.value = key;
+      chips.querySelectorAll('.chip').forEach(c=>c.classList.toggle('active', c===ch));
+      try{ localStorage.setItem('bq_sport', key); }catch(e){}
+      const isTopActive = document.getElementById('btnTop')?.dataset.active==='1';
+      if(isTopActive && typeof window.loadTop==='function') window.loadTop(); 
+      else if(typeof window.loadAndRender==='function') window.loadAndRender('all');
+    });
+  });
+
+  // select -> evidenzia chip
+  select.addEventListener('change', ()=>{
+    const key = select.value;
+    chips.querySelectorAll('.chip').forEach(c=>c.classList.toggle('active', c.dataset.key===key));
+    try{ localStorage.setItem('bq_sport', key); }catch(e){}
+  });
+
+  // restore preferenza utente
+  const saved = (()=>{try{return localStorage.getItem('bq_sport')}catch(e){return null}})();
+  if(saved){
+    const chip = chips.querySelector([data-key=""]);
+    if(chip){ chip.click(); } else { select.dispatchEvent(new Event('change')); }
+  }
+}
+// esegui appena possibile dopo il boot
+bqRenderChips();
