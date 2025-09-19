@@ -377,3 +377,101 @@ bqRenderChips();
   if(saved) setSport(saved);
   else if(select.value) setSport(select.value);
 })();/* /SPORT_SYNC */\n
+
+/* SPORT_SYNC (MAX v2): chips <-> select sync + build chips from config + debounce + demo fallback */
+(function(){
+  const select = document.getElementById('sportSelect');
+  const chipsBox = document.getElementById('chips');
+  if(!select || !chipsBox) return;
+
+  // Debounce helper
+  function debounce(fn, ms){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn.apply(window,a), ms); }; }
+  if(typeof window.loadTop==='function') window.loadTop = debounce(window.loadTop, 160);
+  if(typeof window.loadAndRender==='function') window.loadAndRender = debounce(window.loadAndRender, 160);
+
+  // Demo-safe fetch
+  async function safeJSON(url, ms=5000){
+    const c = new AbortController(); const to = setTimeout(()=>c.abort(), ms);
+    try{ const r = await fetch(url, {signal:c.signal}); clearTimeout(to); if(!r.ok) throw new Error(r.status); return await r.json(); }
+    catch(e){ clearTimeout(to); return null; }
+  }
+
+  // Costruisci chips da config se mancano
+  async function ensureChips(){
+    if(chipsBox.querySelector('.chip')) return;
+    try{
+      let cfg = (typeof sports!=='undefined' && sports && sports.sports) ? sports : await safeJSON('/public/config.json');
+      if(!cfg || !cfg.sports) return;
+      chipsBox.innerHTML = cfg.sports.slice(0,12).map((s,i)=>{
+        const active = (select.value===s.key) || (!select.value && i===0);
+        return `<span class="chip ${active?'active':''}" data-key="${s.key}">${(s.name||'').split('•')[1]?.trim()||s.name}</span>`;
+      }).join('');
+    }catch(e){}
+  }
+
+  function reloadCurrent(){
+    const isTop = document.getElementById('btnTop')?.dataset.active==='1';
+    if(isTop && typeof window.loadTop==='function'){ window.loadTop(); }
+    else if(typeof window.loadAndRender==='function'){ window.loadAndRender('all'); }
+  }
+
+  function setSport(key, from){
+    if(!key) return;
+    // select
+    if(from!=='select' && select.value!==key) select.value = key;
+    // chips
+    if(from!=='chip'){
+      chipsBox.querySelectorAll('.chip').forEach(ch=> ch.classList.toggle('active', ch.dataset.key===key));
+    }
+    // persist
+    try{ localStorage.setItem('bq_sport', key); }catch(e){}
+    reloadCurrent();
+  }
+
+  async function boot(){
+    await ensureChips();
+
+    // Wire chips
+    chipsBox.querySelectorAll('.chip').forEach(ch=>{
+      ch.addEventListener('click', ()=> setSport(ch.dataset.key, 'chip'));
+    });
+
+    // Wire select
+    select.addEventListener('change', e=> setSport(e.target.value, 'select'));
+
+    // Restore preferenza
+    const saved = (()=>{ try{ return localStorage.getItem('bq_sport'); }catch(e){ return null; } })();
+    if(saved){ setSport(saved); }
+    else if(select.value){ setSport(select.value); }
+
+    // Fallback demo: se top/all tornano 0, prova reseed e ricarica
+    const origLoadTop = window.loadTop;
+    window.loadTop = async function(){
+      if(!origLoadTop) return;
+      await origLoadTop();
+      try{
+        const list = document.getElementById('list');
+        if(list && !list.children.length){
+          await safeJSON('/api/reseed_demo', 3500);
+          await origLoadTop();
+        }
+      }catch(e){}
+    };
+    const origLoad = window.loadAndRender;
+    window.loadAndRender = async function(mode){
+      if(!origLoad) return;
+      await origLoad(mode);
+      try{
+        const list = document.getElementById('list');
+        if(list && !list.children.length){
+          await safeJSON('/api/reseed_demo', 3500);
+          await origLoad(mode);
+        }
+      }catch(e){}
+    };
+  }
+  boot();
+
+  // API pubblica opzionale
+  window.bqSetSport = setSport;
+})();

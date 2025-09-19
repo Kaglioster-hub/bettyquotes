@@ -436,3 +436,12 @@ a:focus-visible, button:focus-visible, .chip:focus-visible{
 .chip.active{ background:rgba(34,197,94,.15); border-color:rgba(34,197,94,.45) }
 html[data-theme="light"] .chip{ background:#f1f5f9; border-color:#cbd5e1; color:#0f172a }
 html[data-theme="light"] .chip.active{ background:#dcfce7; border-color:#86efac; color:#065f46 }
+
+/* === MAXIMAL RESTORE — micro polish === */
+.chip{ display:inline-block; font-size:.8rem; padding:.45rem .8rem; border-radius:999px; border:1px solid var(--stroke,rgba(255,255,255,.14)); background:rgba(255,255,255,.06); cursor:pointer; user-select:none; margin:0 .4rem .4rem 0 }
+.chip:hover{ transform:translateY(-1px); transition:transform .15s ease, box-shadow .2s ease }
+.chip.active{ background:rgba(34,197,94,.16); border-color:rgba(34,197,94,.45) }
+html[data-theme="light"] .chip{ background:#f1f5f9; border-color:#cbd5e1; color:#0f172a }
+html[data-theme="light"] .chip.active{ background:#dcfce7; border-color:#86efac; color:#065f46 }
+a,button{ cursor:pointer }
+a:focus-visible,button:focus-visible,.chip:focus-visible{ outline:2px solid #38bdf8; outline-offset:3px; border-radius:10px }
