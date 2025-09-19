@@ -1,32 +1,11 @@
 {
   "sports": [
-    {
-      "key": "soccer_epl",
-      "name": "Calcio • Premier League"
-    },
-    {
-      "key": "soccer_ita_seria",
-      "name": "Calcio • Serie A"
-    },
-    {
-      "key": "soccer_esp_la_liga",
-      "name": "Calcio • La Liga"
-    },
-    {
-      "key": "soccer_ger_bundesliga",
-      "name": "Calcio • Bundesliga"
-    },
-    {
-      "key": "basketball_nba",
-      "name": "Basket • NBA"
-    },
-    {
-      "key": "tennis_atp",
-      "name": "Tennis • ATP"
-    },
-    {
-      "key": "americanfootball_nfl",
-      "name": "Football • NFL"
-    }
+    { "key": "soccer_epl",                "name": "Calcio • Premier League" },
+    { "key": "soccer_italy_serie_a",      "name": "Calcio • Serie A" },
+    { "key": "soccer_spain_la_liga",      "name": "Calcio • La Liga" },
+    { "key": "soccer_germany_bundesliga", "name": "Calcio • Bundesliga" },
+    { "key": "basketball_nba",            "name": "Basket • NBA" },
+    { "key": "tennis_atp",                "name": "Tennis • ATP" },
+    { "key": "americanfootball_nfl",      "name": "Football • NFL" }
   ]
 }
